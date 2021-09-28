@@ -28,13 +28,14 @@ class Customer:
     # Submit_order takes a cashier, a stall and an amount as parameters, 
     # it deducts the amount from the customer’s wallet and calls the receive_payment method on the cashier object
     def submit_order(self, cashier, stall, amount): 
-        pass
+        self.wallet -= amount
+        cashier.receive_payment(stall, amount)
 
     # The __str__ method prints the customer's information.    
     def __str__(self):
         return "Hello! My name is " + self.name + ". I have $" + str(self.wallet) + " in my payment card."
 
-
+'''
 # The Cashier class
 # The Cashier class represents a cashier at the market. 
 class Cashier:
@@ -68,13 +69,46 @@ class Cashier:
     def __str__(self):
 
         return "Hello, this is the " + self.name + " cashier. We take preloaded market payment cards only. We have " + str(sum([len(category) for category in self.directory.values()])) + " vendors in the farmers' market."
-
+'''
 ## Complete the Stall class here following the instructions in HW_4_instructions_rubric
 class Stall:
     
-    pass
+    def __init__(self, name, inventory, cost = 7, earnings = 0):
+        self.name = name
+        self.inventory = inventory
+        self.cost = cost
+        self.earnings = earnings 
 
+    def process_order(self, food_name, quantity):
+        if self.has_item(food_name, quantity) == True:
+            self.inventory[food_name] -= quantity
 
+    def has_item(self, food_name, quantity):
+        for food in self.inventory.keys():
+            if food == food_name:
+                if self.inventory[food] >= quantity:
+                    return True
+                else:
+                    return False
+
+    def stock_up(self, food_name, quantity):
+        if food_name in self.inventory:
+            self.inventory[food_name] += quantity
+        else:
+            self.inventory[food_name] = quantity
+
+    def compute_cost(self, quantity):
+        return self.cost*quantity
+
+    def __str__(self):
+        key_str = ", ".join(list(self.inventory.keys()))
+        #for i in range(len(list(self.inventory.keys()))):
+         #   if i = len(list(self.inventory.keys()))
+          #  key_str += f"{list(self.inventory.keys())[i]"
+        return f"Hello, we are {self.name}. This is the current menu: {key_str}. We charge ${self.cost} per item. We have ${self.earnings} in total."
+        
+
+'''
 class TestAllMethods(unittest.TestCase):
     
     def setUp(self):
@@ -175,22 +209,36 @@ class TestAllMethods(unittest.TestCase):
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
         pass
-    
+    '''
 ### Write main function
 def main():
-    #Create different objects 
 
+    inventory_1 = {"Pasta": 15, "Meatballs": 20, "Pizza": 10}
+    inventory_2 = {"Tacos": 20, "Fajitas": 10, "Nachos": 5}
+    #Create different objects 
+    c1 = Customer("Ryan", 50)
+    c2 = Customer("Selena")
+    c3 = Customer("Adam", 150)
+
+    s1 = Stall("Mario's Pizza", inventory_1, 20)
+    s2 = Stall("Blue Moon Mexican", inventory_2, 15)
+
+    #cashier1 = Cashier("Alex", s1)
+    #cashier2 = Cashier("Melody", s2)
+
+    print(s1)
+'''
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
     #case 1: the cashier does not have the stall 
-    
+    c1.validate_order(cashier1, s2, "Tacos", 1)
     #case 2: the casher has the stall, but not enough ordered food or the ordered food item
-    
+    c2.validate_order(cashier2, s2, "Nachos", 8)
     #case 3: the customer does not have enough money to pay for the order: 
-    
+    c1.validate_order(cashier1, s1, "Pasta", 3)
     #case 4: the customer successfully places an order
-
-    pass
+    c3.validate_order(cashier2, s2, "Tacos", 9)
+'''    
 
 if __name__ == "__main__":
 	main()
