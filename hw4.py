@@ -35,7 +35,7 @@ class Customer:
     def __str__(self):
         return "Hello! My name is " + self.name + ". I have $" + str(self.wallet) + " in my payment card."
 
-'''
+
 # The Cashier class
 # The Cashier class represents a cashier at the market. 
 class Cashier:
@@ -69,7 +69,8 @@ class Cashier:
     def __str__(self):
 
         return "Hello, this is the " + self.name + " cashier. We take preloaded market payment cards only. We have " + str(sum([len(category) for category in self.directory.values()])) + " vendors in the farmers' market."
-'''
+
+
 ## Complete the Stall class here following the instructions in HW_4_instructions_rubric
 class Stall:
     
@@ -90,7 +91,7 @@ class Stall:
                     return True
                 else:
                     return False
-
+        return False
     def stock_up(self, food_name, quantity):
         if food_name in self.inventory:
             self.inventory[food_name] += quantity
@@ -102,13 +103,10 @@ class Stall:
 
     def __str__(self):
         key_str = ", ".join(list(self.inventory.keys()))
-        #for i in range(len(list(self.inventory.keys()))):
-         #   if i = len(list(self.inventory.keys()))
-          #  key_str += f"{list(self.inventory.keys())[i]"
         return f"Hello, we are {self.name}. This is the current menu: {key_str}. We charge ${self.cost} per item. We have ${self.earnings} in total."
         
 
-'''
+
 class TestAllMethods(unittest.TestCase):
     
     def setUp(self):
@@ -181,8 +179,9 @@ class TestAllMethods(unittest.TestCase):
     def test_compute_cost(self):
         #what's wrong with the following statements?
         #can you correct them?
-        self.assertEqual(self.s1.compute_cost(self.s1,5), 51)
-        self.assertEqual(self.s3.compute_cost(self.s3,6), 45)
+        self.assertEqual(self.s1.compute_cost(5), 50)
+        self.assertEqual(self.s3.compute_cost(6), 42)
+
 
 	# Check that the stall can properly see when it is empty
     def test_has_item(self):
@@ -191,30 +190,32 @@ class TestAllMethods(unittest.TestCase):
         # Test to see if has_item returns True when a stall has enough items left
         # Please follow the instructions below to create three different kinds of test cases 
         # Test case 1: the stall does not have this food item: 
-        
+        self.assertEqual(self.s1.has_item("Pizza", 5), False)
         # Test case 2: the stall does not have enough food item: 
-        
+        self.assertEqual(self.s1.has_item("Burger", 50), False)
         # Test case 3: the stall has the food item of the certain quantity: 
-        pass
-
+        self.assertEqual(self.s1.has_item("Burger", 10), True)
+    '''
 	# Test validate order
     def test_validate_order(self):
 		# case 1: test if a customer doesn't have enough money in their wallet to order
-
+        self.assertEqual()
 		# case 2: test if the stall doesn't have enough food left in stock
 
 		# case 3: check if the cashier can order item from that stall
-        pass
+        
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
-        pass
-    '''
+      '''  
+
 ### Write main function
 def main():
 
     inventory_1 = {"Pasta": 15, "Meatballs": 20, "Pizza": 10}
     inventory_2 = {"Tacos": 20, "Fajitas": 10, "Nachos": 5}
+    inventory_3 = {"Burger": 10, "Hotdogs": 5, "Fries": 15}
+
     #Create different objects 
     c1 = Customer("Ryan", 50)
     c2 = Customer("Selena")
@@ -222,12 +223,17 @@ def main():
 
     s1 = Stall("Mario's Pizza", inventory_1, 20)
     s2 = Stall("Blue Moon Mexican", inventory_2, 15)
+    s3 = Stall("Hometown BBQ", inventory_3, 25)
 
-    #cashier1 = Cashier("Alex", s1)
-    #cashier2 = Cashier("Melody", s2)
+    cashier1 = Cashier("Alex")
+    cashier2 = Cashier("Melody")
 
-    print(s1)
-'''
+    for s in [s1, s3]:
+        cashier1.add_stall(s)
+
+    for s in [s2, s3]:
+        cashier2.add_stall(s)
+
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
     #case 1: the cashier does not have the stall 
@@ -238,7 +244,7 @@ def main():
     c1.validate_order(cashier1, s1, "Pasta", 3)
     #case 4: the customer successfully places an order
     c3.validate_order(cashier2, s2, "Tacos", 9)
-'''    
+   
 
 if __name__ == "__main__":
 	main()
