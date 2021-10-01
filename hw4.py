@@ -221,13 +221,10 @@ class TestAllMethods(unittest.TestCase):
 
 		# case 1: test if a customer doesn't have enough money in their wallet to order
         self.assertFalse(self.f1.validate_order(self.c1, self.s1, "Burger", 39))
-        #, print("Don't have enough money for that :( Please reload more money!"))
 		# case 2: test if the stall doesn't have enough food left in stock
         self.assertFalse(self.f2.validate_order(self.c2, self.s2, "Burger", 41))
-        #, print("Our stall has run out of Burger :( Please try a different stall!"))
 		# case 3: check if the cashier can order item from that stall
         self.assertFalse(self.f2.validate_order(self.c1, s4, "Burger", 4))
-        #, print("Sorry, we don't have that vendor stall. Please try a different one."))
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
